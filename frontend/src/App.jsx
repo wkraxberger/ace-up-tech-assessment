@@ -1,34 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import Dashboard from './components/Dashboard'
+import OrdersTable from './components/OrdersTable'
+import NewOrderDialog from './components/NewOrderDialog'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [orders, setOrders] = useState([])
+  const [showDialog, setShowDialog] = useState(false)
+
+  const fetchOrders = () => {
+    fetch('http://localhost:3000/orders')
+      .then(res => res.json())
+      .then(data => setOrders(data))
+  }
+
+  useEffect(() => {
+    fetchOrders()
+  }, [])
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <h1>Order Management</h1>
+      <Dashboard orders={orders} />
+      <div className="orders-section">
+        <div className="orders-header">
+          <h2>Orders</h2>
+          <button onClick={() => setShowDialog(true)}>New Order</button>
+        </div>
+        <OrdersTable orders={orders} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <NewOrderDialog
+        open={showDialog}
+        onClose={() => setShowDialog(false)}
+        onOrderCreated={fetchOrders}
+      />
+    </div>
   )
 }
 
