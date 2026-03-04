@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 function NewOrderDialog({ open, onClose, onOrderCreated }) {
   const [products, setProducts] = useState([])
   const [customerName, setCustomerName] = useState('')
+  const [customerEmail, setCustomerEmail] = useState('')
   const [items, setItems] = useState([{ product_id: '', quantity: 1 }])
 
   useEffect(() => {
@@ -36,6 +37,7 @@ function NewOrderDialog({ open, onClose, onOrderCreated }) {
       body: JSON.stringify({
         order: {
           customer_name: customerName,
+          customer_email: customerEmail,
           status: 'pending',
           order_items_attributes: items
         }
@@ -44,6 +46,7 @@ function NewOrderDialog({ open, onClose, onOrderCreated }) {
       .then(res => res.json())
       .then(() => {
         setCustomerName('')
+        setCustomerEmail('')
         setItems([{ product_id: '', quantity: 1 }])
         onOrderCreated()
         onClose()
@@ -63,6 +66,15 @@ function NewOrderDialog({ open, onClose, onOrderCreated }) {
               type="text"
               value={customerName}
               onChange={e => setCustomerName(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Customer Email
+            <input
+              type="email"
+              value={customerEmail}
+              onChange={e => setCustomerEmail(e.target.value)}
               required
             />
           </label>
