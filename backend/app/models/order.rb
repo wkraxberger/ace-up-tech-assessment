@@ -9,7 +9,7 @@ class Order < ApplicationRecord
   validates :customer_email, presence: true
   validates :status, presence: true, inclusion: { in: STATUSES }
   validate :no_duplicate_products
-  before_save :calculate_total
+  before_create :calculate_total
 
   private
 
