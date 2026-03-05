@@ -1,4 +1,4 @@
-function OrdersTable({ orders }) {
+function OrdersTable({ orders, onEdit }) {
   if (orders.length === 0) {
     return <p>No orders yet.</p>
   }
@@ -14,6 +14,7 @@ function OrdersTable({ orders }) {
           <th>Status</th>
           <th>Total</th>
           <th>Created</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -33,6 +34,7 @@ function OrdersTable({ orders }) {
             <td>{order.status}</td>
             <td>${Number(order.total_price).toFixed(2)}</td>
             <td>{new Date(order.created_at).toLocaleDateString()}</td>
+            <td><button onClick={() => onEdit(order)}>Edit</button></td>
           </tr>
         ))}
       </tbody>

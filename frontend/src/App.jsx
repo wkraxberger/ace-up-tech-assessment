@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Dashboard from './components/Dashboard'
 import OrdersTable from './components/OrdersTable'
 import NewOrderDialog from './components/NewOrderDialog'
+import EditOrderDialog from './components/EditOrderDialog'
 import ProductsTable from './components/ProductsTable'
 import './App.css'
 
@@ -10,6 +11,7 @@ function App() {
   const [orders, setOrders] = useState([])
   const [products, setProducts] = useState([])
   const [showDialog, setShowDialog] = useState(false)
+  const [editingOrder, setEditingOrder] = useState(null)
 
   const fetchOrders = () => {
     fetch('http://localhost:3000/orders')
@@ -54,7 +56,7 @@ function App() {
             <h2>Orders</h2>
             <button onClick={() => setShowDialog(true)}>New Order</button>
           </div>
-          <OrdersTable orders={orders} />
+          <OrdersTable orders={orders} onEdit={setEditingOrder} />
         </div>
       )}
 
@@ -68,6 +70,13 @@ function App() {
         open={showDialog}
         onClose={() => setShowDialog(false)}
         onOrderCreated={fetchOrders}
+      />
+
+      <EditOrderDialog
+        open={editingOrder !== null}
+        order={editingOrder}
+        onClose={() => setEditingOrder(null)}
+        onOrderUpdated={fetchOrders}
       />
     </div>
   )
