@@ -31,7 +31,7 @@ function OrdersTable({ orders, onEdit }) {
                 </span>
               ))}
             </td>
-            <td>{order.status}</td>
+            <td>{order.status.charAt(0).toUpperCase() + order.status.slice(1)}</td>
             <td>${Number(order.total_price).toFixed(2)}</td>
             <td>{new Date(order.created_at).toLocaleDateString()}</td>
             <td><button onClick={() => onEdit(order)}>Edit</button></td>
