@@ -35,6 +35,7 @@ RSpec.describe "Orders", type: :request do
       json = JSON.parse(response.body)
       expect(json["customer_name"]).to eq("John Doe")
       expect(json["status"]).to eq("pending")
+      expect(json["total_price"].to_f).to eq(40.00)
     end
 
     it "returns errors when the name is invalid" do
