@@ -28,6 +28,13 @@ function NewOrderDialog({ open, onClose, onOrderCreated }) {
     setItems(items.filter((_, i) => i !== index))
   }
 
+  const availableProducts = (currentProductId) => {
+    const selectedIds = items.map(i => i.product_id)
+    return products.filter(p =>
+      p.id.toString() === currentProductId || !selectedIds.includes(p.id.toString())
+    )
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -88,7 +95,7 @@ function NewOrderDialog({ open, onClose, onOrderCreated }) {
                 required
               >
                 <option value="">Select product</option>
-                {products.map(p => (
+                {availableProducts(item.product_id).map(p => (
                   <option key={p.id} value={p.id}>
                     {p.name} - ${Number(p.price).toFixed(2)}
                   </option>
