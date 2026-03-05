@@ -66,5 +66,21 @@ RSpec.describe "Orders", type: :request do
       json = JSON.parse(response.body)
       expect(json["errors"]).to be_present
     end
+
+    it "rejects order if there are duplicate products" do
+      post "/orders", params: {
+        order: {
+          customer_name: "John Doe",
+          customer_email: "john@doe.com",
+          status: "pending",
+          order_items_attributes: [
+            { product_id: product.id, quantity: 1 },
+            { product_id: product.id, quantity: 3 }
+          ]
+        }
+      }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
 end
