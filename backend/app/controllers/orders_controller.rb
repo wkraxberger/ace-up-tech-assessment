@@ -10,12 +10,9 @@ class OrdersController < ApplicationController
   end
 
   def create
-    order = Order.new(order_params)
+    order = OrderService.create(order_params)
 
-    if order.save
-      # This would send the email but it is set to test as we don't have an email client nor domain
-      OrderMailer.confirmation(order).deliver_later
-
+    if order.persisted?
       render json: order, status: :created
     else
       render json: { errors: order.errors.full_messages }, status: :unprocessable_entity
