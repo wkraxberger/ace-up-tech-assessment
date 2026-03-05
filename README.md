@@ -319,5 +319,5 @@ docker-compose run -e RAILS_ENV=test backend bundle exec rspec
 - Better error messages shown to the user
 - Loading states and spinners
 - Order search or filters
-- More test coverage (model specs, product endpoints)
+- More test coverage (model specs)
 - Maybe use something like tailwind instead of plain CSS
