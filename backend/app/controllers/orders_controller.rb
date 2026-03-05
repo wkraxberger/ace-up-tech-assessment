@@ -9,6 +9,16 @@ class OrdersController < ApplicationController
     render json: order, include: { order_items: { include: :product } }
   end
 
+  def update
+    order = Order.find(params[:id])
+
+    if order.update(order_params)
+      render json: order
+    else
+      render json: { errors: order.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   def create
     order = OrderService.create(order_params)
 
