@@ -1,10 +1,13 @@
 class Order < ApplicationRecord
+  STATUSES = ["pending", "confirmed", "shipped", "delivered", "cancelled"].freeze
+  DEFAULT_STATUS = "pending"
+
   has_many :order_items, dependent: :destroy
   accepts_nested_attributes_for :order_items
 
   validates :customer_name, presence: true
   validates :customer_email, presence: true
-  validates :status, presence: true
+  validates :status, presence: true, inclusion: { in: STATUSES }
   validate :no_duplicate_products
   before_save :calculate_total
 
