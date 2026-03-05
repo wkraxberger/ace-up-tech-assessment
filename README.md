@@ -269,3 +269,55 @@ We value:
 - Code that another engineer could confidently extend
 
 Good luck, and feel free to make reasonable assumptions where needed.
+
+
+
+---
+
+
+## Notes from candidate
+
+Hello, thanks for checking my repository. Although the assessment for the fullstack position was simple, I have made the following assumptions:
+- An initial set of products is needed in the seed
+- There needs to be a way of editing or adding products
+- There needs to be a way of editing an order(at least its customer name, email or status)
+
+### What I did
+
+- **Dashboard** with order count stat
+- **Orders table** showing all orders with their items, totals, status, etc
+- **New Order dialog** where you pick products and quantities, it creates the order and refreshes the list
+- **Edit Order dialog** for changing customer name, email or status
+- **Products tab** with a simple table and dialog to add/edit/delete products
+- **Order statuses** (pending, confirmed, shipped, delivered, cancelled) with a default of pending
+- **Validations** on both backend and frontend, like no duplicate products in an order
+- **Total price** gets calculated automatically from the order items
+- **Email confirmation** is set up with action mailer but using test delivery since I don't have a real mail server for this. The mailer, template and service are all there though
+- **Unit tests** with rspec for the orders endpoint and the order service
+
+### How it works
+
+The backend follows MVCS. The Order Service handles creation logic and triggers the confirmation email. Orders have many order items which belong to products. The frontend is plainrReact with basic css, no extra libraries. I've had the help of AI for the front end, it has been flagged in the commit messages for transparency.
+
+For emails I went with the action mailer test delivery method. The mailer and template are fully implemented, just not connected to a real smtp server. In a real project I would use a service like send grid.
+
+### Running tests
+
+I've set up a separate test database (`aceup_db_test`) so running tests doesn't wipe out development data. To run them:
+
+```bash
+# first time setup
+docker-compose run -e RAILS_ENV=test backend bash -c "rails db:create db:migrate"
+
+# run tests
+docker-compose run -e RAILS_ENV=test backend bundle exec rspec
+```
+
+### What I'd improve with more time
+
+- Pagination for orders and products
+- Better error messages shown to the user
+- Loading states and spinners
+- Order search or filters
+- More test coverage (model specs, product endpoints)
+- Maybe use something like tailwind instead of plain CSS
