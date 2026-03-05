@@ -36,5 +36,35 @@ RSpec.describe "Orders", type: :request do
       expect(json["customer_name"]).to eq("John Doe")
       expect(json["status"]).to eq("pending")
     end
+
+    it "returns errors when the name is invalid" do
+      post "/orders", params: {
+        order: { customer_name: "", customer_email: "john@doe.com", status: "pending" }
+      }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      json = JSON.parse(response.body)
+      expect(json["errors"]).to be_present
+    end
+
+    it "returns errors when the email is invalid" do
+      post "/orders", params: {
+        order: { customer_name: "John Doe", customer_email: "", status: "pending" }
+      }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      json = JSON.parse(response.body)
+      expect(json["errors"]).to be_present
+    end
+
+    it "returns errors when the status is invalid" do
+      post "/orders", params: {
+        order: { customer_name: "John Doe", customer_email: "john@doe.com", status: "" }
+      }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      json = JSON.parse(response.body)
+      expect(json["errors"]).to be_present
+    end
   end
 end
