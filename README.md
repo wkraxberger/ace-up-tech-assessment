@@ -297,7 +297,7 @@ Hello, thanks for checking my repository. Although the assessment for the fullst
 
 ### How it works
 
-The backend follows MVCS. The Order Service handles creation logic and triggers the confirmation email. Orders have many order items which belong to products. The frontend is plainrReact with basic css, no extra libraries. I've had the help of AI for the front end, it has been flagged in the commit messages for transparency.
+The backend follows MVCS. The Order Service handles creation logic and triggers the confirmation email. Orders have many order items which belong to products. The frontend is plain React with basic css, no extra libraries. I've had the help of AI for the front end, it has been flagged in the commit messages for transparency.
 
 For emails I went with the action mailer test delivery method. The mailer and template are fully implemented, just not connected to a real smtp server. In a real project I would use a service like send grid.
 
