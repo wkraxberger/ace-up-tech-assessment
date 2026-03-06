@@ -45,5 +45,5 @@ jobs:
           bundler-cache: true
           working-directory: backend
 
-      - run: rails db:migrate
+      - run: bundle exec rails db:migrate
       - run: bundle exec rspec
