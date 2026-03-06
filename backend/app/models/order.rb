@@ -14,7 +14,11 @@ class Order < ApplicationRecord
   private
 
   def calculate_total
-    self.total_price = order_items.sum { |item| item.product.price * item.quantity }
+    self.total_price = 0
+    order_items.each do |item|
+      item.unit_price = item.product.price
+      self.total_price += item.unit_price * item.quantity
+    end
   end
 
   def no_duplicate_products
